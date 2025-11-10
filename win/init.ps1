@@ -1,5 +1,5 @@
 
-# Safe
+# Safely get execution policy listing
 $INIT_EXECUTION_POLICY = Get-ExecutionPolicy -list
 
 # Set execution policy for current user to bypass only for this script
