@@ -11,13 +11,11 @@ $Vagrant_Base_URL = "https://releases.hashicorp.com/vagrant/"
 
 $Vagrant_Base_URL_Response = Invoke-WebRequest -Uri $Vagrant_Base_URL
 
-
 if ($Vagrant_Base_URL_Response.StatusCode -eq "200" ) {
     Write-Output "Successful request made to $Vagrant_Base_URL."
 }else {
     Write-Output "Error in request made to $Vagrant_Base_URL."
 }
-# #>
 
 $Newest_Vagrant_Version = ($Vagrant_Base_URL_Response.ParsedHtml.getElementsByTagName('a') | Select-Object nameprop)[1].nameprop
 
