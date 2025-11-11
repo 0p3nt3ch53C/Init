@@ -22,8 +22,6 @@ function APICall {
 
 $Vagrant_Base_URL_Response = APICall -url $Vagrant_Base_URL
 
-
-
 $Newest_Vagrant_Version = ($Vagrant_Base_URL_Response.ParsedHtml.getElementsByTagName('a') | Select-Object nameprop)[1].nameprop
 
 $Vagrant_Filename = (-join("vagrant_",$Newest_Vagrant_Version,"_windows_amd64.msi"))
@@ -36,6 +34,7 @@ $Vagrant_File_Hash = (Get-FileHash "$DownloadPath\$Vagrant_Filename").Hash
 
 $Vagrant_File_Hash_Filename = (-join("vagrant_",$Newest_Vagrant_Version,"_SHA256SUMS"))
 
+# Update to use APICall Function
 Invoke-WebRequest -Uri (-join($Vagrant_Base_URL,$Newest_Vagrant_Version,"\",$Vagrant_File_Hash_Filename)) -outfile "$DownloadPath\$Vagrant_File_Hash_Filename"
 # As needed, check download status: $Vagrant_File_Hash_Download_Status = $?
 
