@@ -6,16 +6,20 @@ $INIT_EXECUTION_POLICY = Get-ExecutionPolicy -list
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 
 $DownloadPath = "~\Downloads"
-
 $Vagrant_Base_URL = "https://releases.hashicorp.com/vagrant/"
 
-$Vagrant_Base_URL_Response = Invoke-WebRequest -Uri $Vagrant_Base_URL
-
+function APICall {
+    param (
+        [string]$url
+    )
+}
 if ($Vagrant_Base_URL_Response.StatusCode -eq "200" ) {
     Write-Output "Successful request made to $Vagrant_Base_URL."
 }else {
     Write-Output "Error in request made to $Vagrant_Base_URL."
 }
+
+$Vagrant_Base_URL_Response = Invoke-WebRequest -Uri $Vagrant_Base_URL
 
 $Newest_Vagrant_Version = ($Vagrant_Base_URL_Response.ParsedHtml.getElementsByTagName('a') | Select-Object nameprop)[1].nameprop
 
@@ -38,9 +42,7 @@ if (Select-String -Path $DownloadPath\$Vagrant_File_Hash_Filename -Pattern $Vagr
 msiexec /qn /i $Vagrant_Filename /passive /norestart VAGRANTAPPDIR=C:\HashiCorp\Vagrant\
 
 # Install (and / or upgrade) Virtualbox 
-
 winget install Oracle.VirtualBox --silent
-
 
 # Set execution policy back to original
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy $INIT_EXECUTION_POLICY.ExecutionPolicy[3]
