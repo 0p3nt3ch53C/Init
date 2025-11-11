@@ -12,14 +12,17 @@ function APICall {
     param (
         [string]$url
     )
-}
-if ($Vagrant_Base_URL_Response.StatusCode -eq "200" ) {
-    Write-Output "Successful request made to $Vagrant_Base_URL."
-}else {
-    Write-Output "Error in request made to $Vagrant_Base_URL."
+    $response = Invoke-WebRequest -Uri $url
+    if ($response.StatusCode -eq "200" ) {
+        return $response
+    }else {
+        return $null
+    }
 }
 
-$Vagrant_Base_URL_Response = Invoke-WebRequest -Uri $Vagrant_Base_URL
+$Vagrant_Base_URL_Response = APICall -url $Vagrant_Base_URL
+
+
 
 $Newest_Vagrant_Version = ($Vagrant_Base_URL_Response.ParsedHtml.getElementsByTagName('a') | Select-Object nameprop)[1].nameprop
 
