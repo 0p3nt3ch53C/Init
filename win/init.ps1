@@ -5,6 +5,17 @@ $INIT_EXECUTION_POLICY = Get-ExecutionPolicy -list
 # Set execution policy for current user to bypass only for this script
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 
+# Install VSCode Extension via PowerShell
+code --install-extension ms-vscode.powershell
+code --install-extension ms-python.python
+code --install-extension ms-python.debugpy
+code --install-extension ms-python.vscode-python-envs
+code --install-extension ms-python.vscode-pylance
+# Mobile Development
+code --install-extension dart-code.dart-code
+code --install-extension dart-code.flutter
+code --install-extension google.geminicodeassist
+
 $DownloadPath = "~\Downloads"
 $Vagrant_Base_URL = "https://releases.hashicorp.com/vagrant/"
 
