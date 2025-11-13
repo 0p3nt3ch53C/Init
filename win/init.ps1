@@ -21,9 +21,9 @@ $Vagrant_Base_URL = "https://releases.hashicorp.com/vagrant/"
 
 function CheckAPIStatusCode {
     param (
-        [string]$statuscode
+        [object]$response
     )
-    if ($response.StatusCode -eq "200" ) {
+    if ($response.StatusCode -eq 200 ) {
         return $response
     } else {
         return $null
@@ -40,7 +40,7 @@ function APICall {
     } else {
         $response = Invoke-WebRequest -Uri $url
     }
-    return CheckAPIStatusCode -response $response
+    return CheckAPIStatusCode -response $response # Pass the response object to the function
 }
 
 $Vagrant_Base_URL_Response = APICall -url $Vagrant_Base_URL
