@@ -28,3 +28,32 @@ Describe 'CheckAPIStatusCode' {
         }
     }
 }
+
+Describe 'APICall' {
+    # Mock the functions that APICall depends on before each test
+    BeforeEach {
+        # Mock Invoke-WebRequest to avoid real network calls
+        Mock -CommandName 'Invoke-WebRequest' -MockWith {
+            # This default mock will throw if Invoke-WebRequest is called with unexpected parameters
+        } | Out-Null
+
+        # Mock CheckAPIStatusCode to isolate APICall's logic
+        Mock -CommandName 'CheckAPIStatusCode' -MockWith {
+            param($response)
+            return $response # By default, just pass the response through
+        } | Out-Null
+    }
+
+    It 'should call Invoke-WebRequest with only a URL when no filepath is provided' {
+        $testUrl = 'https://example.com'
+        $mockResponse = [pscustomobject]@{ StatusCode = 200 }
+
+        # Expect Invoke-WebRequest to be called with specific parameters
+        Mock -CommandName 'Invoke-WebRequest' -ParameterFilter { $Uri -eq $testUrl -and -not $PSBoundParameters.ContainsKey('outfile') } -MockWith { return $mockResponse }
+
+        $result = APICall -url $testUrl
+        $result | Should -Be $mockResponse
+        Assert-VerifiableMocks
+    }
+
+}
