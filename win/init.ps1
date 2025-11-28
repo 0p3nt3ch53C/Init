@@ -14,7 +14,7 @@ code --install-extension ms-python.vscode-pylance
 # Mobile Development
 code --install-extension dart-code.dart-code
 code --install-extension dart-code.flutter
-code --install-extension Google.geminicodeassist
+code --install-extension snyk-security.snyk-vulnerability-scanner
 
 $DownloadPath = "~\Downloads"
 $Vagrant_Base_URL = "https://releases.hashicorp.com/vagrant/"
