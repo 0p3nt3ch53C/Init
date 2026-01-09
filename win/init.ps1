@@ -5,6 +5,8 @@ $INIT_EXECUTION_POLICY = Get-ExecutionPolicy -list
 # Set execution policy for current user to bypass only for this script
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass
 
+winget install --id Microsoft.PowerShell --source winget
+
 # Install VSCode Extension via PowerShell
 code --install-extension ms-vscode.powershell
 code --install-extension ms-python.python
@@ -38,7 +40,7 @@ function APICall {
     if ($filepath -ne $false) {
         $response = Invoke-WebRequest -Uri $url -outfile $filepath
     } else {
-        $response = Invoke-WebRequest -Uri $url
+        $response = Invoke-WebRequest -Uri $url -UseBasicParsing
     }
     return CheckAPIStatusCode -response $response # Pass the response object to the function
 }
